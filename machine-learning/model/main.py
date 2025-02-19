@@ -5,7 +5,7 @@ from metrics import calculate_metrics
 
 def main():
     # Carregar dados
-    df_fea = load_data('results/features.xlsx')
+    df_fea = load_data("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/features.xlsx")
     
     # Dividir dados em treino e teste
     X_train, X_test, y_train, y_test = split_data(df_fea)
@@ -41,7 +41,7 @@ def main():
         analise = pd.concat([analise, registro], ignore_index=True)
     
     # Salvar resultados
-    analise.to_excel('results/metrics.xlsx', index=False)
+    analise.to_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/metrics.xlsx", index=False)
     print("Análise completa e resultados salvos em 'results/metrics.xlsx'.")
 
 if __name__ == "__main__":

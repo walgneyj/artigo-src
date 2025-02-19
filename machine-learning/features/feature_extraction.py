@@ -15,7 +15,6 @@ def extract_features(df_key, df_mou, df_beh):
     Retorna:
     DataFrame: DataFrame contendo as features extraídas.
     """
-
     df_fea = pd.DataFrame(data=df_key['session'].unique())
     df_fea.rename(columns={0: 'Amostra'}, inplace=True)
     df_fea.set_index('Amostra', inplace=True)
@@ -35,10 +34,10 @@ def assign_labels(df_fea, df_key):
     df_fea (DataFrame): DataFrame onde as labels serão atribuídas.
     df_key (DataFrame): DataFrame contendo as informações de labels associadas às sessões.
     """
-
     df_fea['label'] = ""
     for loop in df_fea.index:
-        df_fea.loc[loop]['label'] = df_key.loc[df_key['session'] == loop, 'user'].unique()[0]
+        df_fea.loc[loop, 'label'] = df_key.loc[df_key['session'] == loop, 'user'].unique()[0]
+
 
 def calculate_keyboard_features(df_fea, df_key):
     """
@@ -591,7 +590,6 @@ def normalize_and_save_features(df_fea, output_path):
     df_fea (DataFrame): DataFrame contendo as features a serem normalizadas.
     output_path (str): Caminho do arquivo onde os dados normalizados serão salvos.
     """
-
     scaler = mms()
     df_fea_normalized = df_fea.copy()
     df_fea_normalized[df_fea.columns.difference(['label'])] = scaler.fit_transform(df_fea[df_fea.columns.difference(['label'])])
