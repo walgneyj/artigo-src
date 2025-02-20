@@ -361,7 +361,14 @@ def calculate_mouse_features(df_fea, df_mou):
 
                         time = (int(last[2]) - int(first[2])) / 1000
 
-                        speed = int(round(distance / time, 2))
+                        # Verificação para evitar divisão por zero
+                        if time == 0:
+                            speed = 0
+                        else:
+                            speed = int(round(distance / time, 2))
+
+                        # Adicione a feature ao DataFrame
+                        df_fea['mouse_speed'] = speed
 
                         s.append(speed)
 

@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.model_selection import cross_val_score
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def calculate_metrics(model, X_test, y_test):
     """Calcula métricas para um modelo treinado."""
@@ -8,6 +10,7 @@ def calculate_metrics(model, X_test, y_test):
     acc = round(accuracy_score(y_test, pred) * 100, 2)
     
     conf_matrix = confusion_matrix(y_test, pred)
+    plot_confusion_matrix(conf_matrix, y_test, pred)
     far, frr = calculate_far_frr(conf_matrix)
     f1 = round(f1_score(y_test, pred, average='weighted') * 100, 2)
     val_score, std_dev = cross_val_metrics(model, X_test, y_test)
@@ -39,3 +42,13 @@ def cross_val_metrics(model, X_train, y_train, cv=5):
     score_mean = round(np.mean(scores) * 100, 2)
     std_dev = round(np.std(scores) * 100, 2)
     return score_mean, std_dev
+
+def plot_confusion_matrix(conf_matrix, y_test, pred):
+    """Plota a matriz de confusão."""
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(y_test), yticklabels=np.unique(pred))
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.title('Confusion Matrix')
+    plt.savefig('C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/confusion_matrix.png')
+    plt.close()

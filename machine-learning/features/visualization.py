@@ -3,42 +3,12 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 
-def plot_feature_distribution(df, feature, output_path):
-    plt.figure(figsize=(10, 6))
-    sns.histplot(df[feature], kde=True)
-    plt.title(f'Distribution of {feature}')
-    plt.xlabel(feature)
-    plt.ylabel('Frequency')
-    plt.savefig(f'{output_path}/{feature}_distribution.png')
-    plt.close()
-
 def plot_correlation_matrix(df, output_path):
     plt.figure(figsize=(12, 10))
     corr_matrix = df.corr()
     sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='coolwarm')
     plt.title('Correlation Matrix')
     plt.savefig(f'{output_path}/correlation_matrix.png')
-    plt.close()
-
-def plot_feature_importance(importances, feature_names, output_path):
-    plt.figure(figsize=(10, 6))
-    indices = np.argsort(importances)
-    plt.barh(range(len(indices)), importances[indices], align='center')
-    plt.yticks(range(len(indices)), [feature_names[i] for i in indices])
-    plt.xlabel('Relative Importance')
-    plt.title('Feature Importance')
-    plt.savefig(f'{output_path}/feature_importance.png')
-    plt.close()
-
-def compare_original_augmented(original_df, augmented_df, feature, output_path):
-    plt.figure(figsize=(10, 6))
-    sns.histplot(original_df[feature], color='blue', label='Original', kde=True)
-    sns.histplot(augmented_df[feature], color='red', label='Augmented', kde=True)
-    plt.title(f'Comparison of Original and Augmented {feature}')
-    plt.xlabel(feature)
-    plt.ylabel('Frequency')
-    plt.legend()
-    plt.savefig(f'{output_path}/{feature}_comparison.png')
     plt.close()
 
 def plot_model_results(results_df, output_path):
@@ -58,27 +28,15 @@ def plot_model_results(results_df, output_path):
     plt.savefig(f'{output_path}/model_f1_score_comparison.png')
     plt.close()
 
-def plot_data_augmentation(original_counts, augmented_counts, output_path):
-    labels = list(original_counts.keys())
-    original_values = list(original_counts.values())
-    augmented_values = list(augmented_counts.values())
-
-    x = np.arange(len(labels))
-    width = 0.35
-
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.bar(x - width/2, original_values, width, label='Original')
-    ax.bar(x + width/2, augmented_values, width, label='Augmented')
-
-    ax.set_xlabel('Features')
-    ax.set_ylabel('Counts')
-    ax.set_title('Data Augmentation Comparison')
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    ax.legend()
-
-    plt.savefig(f'{output_path}/data_augmentation_comparison.png')
+def plot_confusion_matrix(conf_matrix, y_test, pred):
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(y_test), yticklabels=np.unique(pred))
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.title('Confusion Matrix')
+    plt.savefig('C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/confusion_matrix.png')
     plt.close()
+
 
 def main():
     df = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/features.xlsx")
