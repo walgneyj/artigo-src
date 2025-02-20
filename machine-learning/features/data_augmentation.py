@@ -14,6 +14,7 @@ def augment_keyboard_data(df_key, num_augmented_samples=5):
             augmented_sample['epoch'], unit='ms'
         )
         augmented_data.append(augmented_sample)
+    print("Keyboard data augmentation applied.")
     return pd.concat(augmented_data, ignore_index=True)
 
 def augment_mouse_data(df_mou, num_augmented_samples=5):
@@ -32,6 +33,7 @@ def augment_mouse_data(df_mou, num_augmented_samples=5):
             lambda x: f"({int(x[1:-1].split(',')[0]) + np.random.randint(-5, 5)}, {int(x[1:-1].split(',')[1]) + np.random.randint(-5, 5)})"
         )
         augmented_data.append(augmented_sample)
+    print("Mouse data augmentation applied.")
     return pd.concat(augmented_data, ignore_index=True)
 
 def augment_behavior_data(df_beh, num_augmented_samples=5):
@@ -54,26 +56,5 @@ def augment_behavior_data(df_beh, num_augmented_samples=5):
             augmented_sample['formFinishE'], unit='ms'
         )
         augmented_data.append(augmented_sample)
+    print("Behavior data augmentation applied.")
     return pd.concat(augmented_data, ignore_index=True)
-
-from data_collection import collect_data
-from feature_extraction import extract_features
-from helper_functions import normalize_and_save_features
-
-def main():
-    df_key, df_mou, df_beh = collect_data("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/dataset/user*.csv")
-    print("\nDataframes gerados!")
-
-    # aplicação do data augmentation
-    df_key = augment_keyboard_data(df_key)  # Direct call
-    df_mou = augment_mouse_data(df_mou)     # Direct call
-    df_beh = augment_behavior_data(df_beh)  # Direct call
-    print("\nData augmentation applied!")
-
-    df_fea = extract_features(df_key, df_mou, df_beh)
-    print("\nFeatures calculadas!")
-
-    normalize_and_save_features(df_fea, "C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/features.xlsx")
-
-if __name__ == "__main__":
-    main()
