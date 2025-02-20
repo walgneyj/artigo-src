@@ -2,6 +2,7 @@ import pandas as pd
 from data_processing import load_data, split_data
 from model_training import train_random_forest, train_svm, train_knn, train_logistic_regression
 from metrics import calculate_metrics
+from visualization import plot_model_results
 
 def main():
     # Carregar dados
@@ -43,6 +44,9 @@ def main():
     # Salvar resultados
     analise.to_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/metrics.xlsx", index=False)
     print("Análise completa e resultados salvos em 'results/metrics.xlsx'.")
+
+    # Plotar resultados dos modelos
+    plot_model_results(analise, "C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results")
 
 if __name__ == "__main__":
     main()
