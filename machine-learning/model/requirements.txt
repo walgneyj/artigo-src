@@ -5,3 +5,4 @@ tabulate
 matplotlib
 polars
 seaborn
+plotly
