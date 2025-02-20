@@ -37,19 +37,7 @@ def assign_labels(df_fea, df_key):
     df_fea['label'] = ""
     for loop in df_fea.index:
         df_fea.loc[loop, 'label'] = df_key.loc[df_key['session'] == loop, 'user'].unique()[0]
-
-
 def calculate_keyboard_features(df_fea, df_key):
-    """
-    Calcula as features relacionadas ao uso do teclado, incluindo tempo entre teclas, tempo pressionando teclas,
-    e a distância entre as teclas pressionadas.
-
-    Parâmetros:
-    df_fea (DataFrame): DataFrame onde as features serão armazenadas.
-    df_key (DataFrame): DataFrame contendo os dados de teclado.
-    """
-
-    # Inicialização de pares
     pairs = {}
     key = 0
     down = deque()
@@ -71,8 +59,7 @@ def calculate_keyboard_features(df_fea, df_key):
             df_sub = df_sam[df_sam["input"] == str(inp)]
 
             for loop in df_sub.index:
-                if ((df_sub.loc[loop]['event'] == 'keydown') and (df_sub.loc[loop]['epoch'] != df_sub.iloc[0]['epoch']) and
-                   ((df_key.loc[loop - 1]['event'] != 'keydown') or (df_key.loc[loop]['position'] != df_key.loc[loop - 1]['position']))):
+                if loop > 0 and loop < len(df_key) and (df_sub.loc[loop]['event'] == 'keydown') and (df_sub.loc[loop]['epoch'] != df_sub.iloc[0]['epoch']) and ((df_key.loc[loop - 1]['event'] != 'keydown') or (df_key.loc[loop]['position'] != df_key.loc[loop - 1]['position'])):
                     down.append([df_sub.loc[loop]['position'], df_sub.loc[loop]['epoch']])
 
             for loop in df_sub.index:
@@ -111,15 +98,13 @@ def calculate_keyboard_features(df_fea, df_key):
         df_sub = df_key[cond]
 
         for loop in df_sub.index:
-            if ((df_sub.loc[loop]['event'] == 'keydown' and loop != df_sub.index[-1]) and
-               (df_sub.loc[loop + 1]['event'] != 'keydown' or df_sub.loc[loop + 2]['event'] != 'keydown')):
+            if loop > 0 and loop < len(df_sub) - 2 and ((df_sub.loc[loop]['event'] == 'keydown' and loop != df_sub.index[-1]) and (df_sub.loc[loop + 1]['event'] != 'keydown' or df_sub.loc[loop + 2]['event'] != 'keydown')):
                 time_down = df_sub.loc[loop]['epoch']
 
                 control = loop
                 for busca in df_sub.index:
                     if busca > control:
-                        if (df_sub.loc[busca]['position'] == df_sub.loc[loop]['position'] and
-                            df_sub.loc[busca]['event'] == 'keyup'):
+                        if (df_sub.loc[busca]['position'] == df_sub.loc[loop]['position'] and df_sub.loc[busca]['event'] == 'keyup'):
                             time_up = df_sub.loc[busca]['epoch']
                             break
 
@@ -174,8 +159,7 @@ def calculate_keyboard_features(df_fea, df_key):
 
     clusters = {}
     for loop in pairs:
-        distance = abs((pairs[loop]['coord']['release'][0] - pairs[loop]['coord']['press'][0])) + abs(
-            (pairs[loop]['coord']['release'][1] - pairs[loop]['coord']['press'][1]))
+        distance = abs((pairs[loop]['coord']['release'][0] - pairs[loop]['coord']['press'][0])) + abs((pairs[loop]['coord']['release'][1] - pairs[loop]['coord']['press'][1]))
 
         pairs[loop]['d'] = str(distance)
 
@@ -221,6 +205,7 @@ def calculate_keyboard_features(df_fea, df_key):
             df_fea.loc[subloop, str('distance_map')] = map_value
             df_fea.loc[subloop, str('distance_mhp')] = mhp_value
             df_fea.loc[subloop, str('distance_mgp')] = mgp_value
+
 
 def calculate_mouse_features(df_fea, df_mou):
     """
