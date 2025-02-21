@@ -12,8 +12,8 @@ def main():
     print("\nIniciando o treinamento e avaliação dos modelos...")
     subprocess.run(["python", "C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/model/main.py"])
 
-    # Plotar resultados dos modelos e quantidades de aumento de dados
-    print("\nPlotando resultados dos modelos e quantidades de aumento de dados...")
+    # Plotar resultados dos modelos
+    print("\nPlotando resultados dos modelos...")
     results_df = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/metrics.xlsx")
     output_path = "C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results"
     plot_model_results(results_df, output_path)
