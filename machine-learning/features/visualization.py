@@ -37,7 +37,6 @@ def plot_confusion_matrix(conf_matrix, y_test, pred):
     plt.savefig('C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/confusion_matrix.png')
     plt.close()
 
-
 def main():
     df = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/features.xlsx")
     output_path = "C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results"
@@ -62,12 +61,3 @@ def main():
     # Plot model results
     results_df = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/metrics.xlsx")
     plot_model_results(results_df, output_path)
-
-    # Plot data augmentation quantities
-    original_counts = original_df.count().to_dict()
-    augmented_counts = augmented_df.count().to_dict()
-    plot_data_augmentation(original_counts, augmented_counts, output_path)
-
-if __name__ == "__main__":
-    main()
-    print("Visualization graphs generated.")

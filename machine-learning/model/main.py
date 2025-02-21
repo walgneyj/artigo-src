@@ -2,7 +2,10 @@ import pandas as pd
 from data_processing import load_data, split_data
 from model_training import train_random_forest, train_svm, train_knn, train_logistic_regression
 from metrics import calculate_metrics, plot_confusion_matrix
-from features.visualization import plot_model_results
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from features.visualization import plot_model_results, plot_confusion_matrix
 
 def main():
     # Carregar dados

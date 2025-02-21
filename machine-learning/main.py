@@ -1,6 +1,10 @@
+import sys
+import os
 import subprocess
-from features.visualization import plot_model_results, plot_confusion_matrix
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from features.visualization import plot_model_results
 import pandas as pd
+
 
 
 def main():
@@ -18,12 +22,6 @@ def main():
     output_path = "C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results"
     plot_model_results(results_df, output_path)
 
-    # Plotar matriz de confusão
-    print("\nPlotando matriz de confusão...")
-    conf_matrix = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/confusion_matrix.xlsx")
-    y_test = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/y_test.xlsx")
-    pred = pd.read_excel("C:/Users/walgn/OneDrive/Documentos/Trabalho artigo/autenticacao-de-sistemas-baseados-em-biometria-comportamental-main/machine-learning/results/pred.xlsx")
-    plot_confusion_matrix(conf_matrix, y_test, pred)
-
 if __name__ == "__main__":
     main()
+
